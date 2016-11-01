@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title> COLORING GAME </title>
+	<meta name="viewport" content="initial-scale=1.0; maximum-scale=1.0; width=device-width;">
+	<meta http-equiv="content-type" content="text/html; charset=utf-8">
+	<meta http-equiv="refresh" content="2" >
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+
+	 <link rel=stylesheet type=text/css href="{{ url_for('static', filename='tableStyle.css') }}">
+
+	<script type="text/javascript">
+		function F1(x , y , z) {
+			var myTable = document.getElementById('myTable');
+			myTable.rows[x].cells[y].innerHTML = z;
+		}
+		function F2(x , y , z) {
+			var myTable = document.getElementById('myTable');
+			myTable.rows[x].cells[y].innerHTML = z;
+		}
+	</script>
+
+	<script type="text/javascript">
+	var $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+	function change(x , y , gameID , username) {
+		console.log(x);
+		console.log(y);
+		$.ajax({
+			type: "GET",
+			url: $SCRIPT_ROOT + "/update/",
+			contentType: "application/json; charset=utf-8",
+			data: {
+					"x" : x,
+					"y" : y,
+					"gameID" : gameID,
+					"username" : username
+				  }
+		}); 
+		location.reload(true);    
+	}
+	</script>
+
+</head>
+<body>
+	<h1> Welcome {{username}} </h1>
+	<h2> GAME #{{gameID}} </h2>
+	<h2> ASK YOUR FRIENDS TO JOIN </h2>
+	<h3> Dimensions {{board.r}} X {{board.c}} </h3>
+
+	<table class="table-fill" id="myTable" style="border: 1px solid black;">
+		{% for i in range(board.r) %}
+			<tr style="padding: 15px;">
+				{% for j in range(board.c) %}
+					<td class="text-left"id = "submitBtn" 
+						style="color: blue;font-family: Sans-serif;font-size: 20px;
+							   padding: 15px;border:1px solid black" 
+						onmouseenter="F1({{i}} , {{j}} , '{{username}}')" 
+						onmouseleave="F2( {{i}} , {{j}} , ' {{board.grid[i][j]}} ' )"
+						onclick= "change({{i}} , {{j}} , {{gameID}} , '{{username}}')" 
+					>
+						{{board.grid[i][j]}}
+					</td>
+				{% endfor %}	
+			</tr>
+		{% endfor %}
+	</table>
+
+	{% if msg %}
+		<h3> {{msg}} </h3>
+	{% endif %}
+
+	{% if alive %}
+		<h3> Board frozen for {{alive}} seconds </h3>
+	{% endif %}
+
+	<h3> Ranklist </h3>
+	{% for key in ranklist %}
+		<p> {{key}} | {{ranklist[key]}} </p>
+	{% endfor %}	
+
+
+
+</body>
+</html>

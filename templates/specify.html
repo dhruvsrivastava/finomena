@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title> Specify </title>
+</head>
+<body>
+
+	<h1> Hello {{username}} . Specify dimensions of the board </h1>
+	<form action="specify" method="post">
+		<input type="hidden" name="gameID" value="{{gameID}}">
+		Enter rows : <input type="text" name="rows">
+		<br>
+		Enter columns : <input type="text" name="columns">
+		<br>
+		<input type="submit" name="Submit" value="Submit">
+	</form>
+
+	{% if err %}
+		<h3> {{err}} </h3>
+	{% endif %}
+
+</body>
+</html>
