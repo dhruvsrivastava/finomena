@@ -26,10 +26,14 @@ Asks the user for a unique username and assigns it. List of usernames is maintai
 
 2. /game/create/
 Automatically creates a new game for the user and returns the unique "gameID" to access the game
+<img src = "login_successful.png">
+
 
 3. /specify/gameID
 Allows user to specify the dimensions of the board of the game with ID : "gameID".
+<img src = "Specify.png">
+
 
 4. /play/gameID
 Allows user to enter an existing game with unique ID : "gameID". If such a game does not exist , user is asked to create such a game. 
-
+<img src = "board.png">
